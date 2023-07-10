@@ -98,6 +98,9 @@ Since the application is deployed in Cloud Run, it uses the permissions of the c
 PROJECT_ID=<YOUR_PROJECT_ID>
 EMAIL=<YOUR_USER_ACCOUNT>
 
+# Enable Cloud Run API
+gcloud services enable run.googleapis.com
+
 # Create service account
 gcloud iam service-accounts create cloud-run-llm \
     --description="Service account to call LLM models from Cloud Run" \
@@ -138,7 +141,6 @@ SERVICE_NAME=genai-text-demo
 gcloud artifacts repositories create $AR_REPO --location=$REGION --repository-format=Docker
 gcloud auth configure-docker $REGION-docker.pkg.dev
 gcloud builds submit --tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME
-gcloud services enable run.googleapis.com
 gcloud run deploy $SERVICE_NAME --port 7860 --image $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME --service-account=cloud-run-llm@$PROJECT_ID.iam.gserviceaccount.com --allow-unauthenticated --region=$REGION --platform=managed  --project=$PROJECT_ID
 ```
 
