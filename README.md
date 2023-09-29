@@ -98,6 +98,8 @@ Since the application is deployed in Cloud Run, it uses the permissions of the c
 PROJECT_ID=<YOUR_PROJECT_ID>
 EMAIL=<YOUR_USER_ACCOUNT>
 
+gcloud config set project $PROJECT_ID
+
 # Enable Cloud Run API
 gcloud services enable run.googleapis.com
 
