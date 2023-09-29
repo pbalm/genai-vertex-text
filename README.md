@@ -145,6 +145,15 @@ gcloud builds submit --tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_
 gcloud run deploy $SERVICE_NAME --port 7860 --image $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME --service-account=cloud-run-llm@$PROJECT_ID.iam.gserviceaccount.com --allow-unauthenticated --region=$REGION --platform=managed  --project=$PROJECT_ID
 ```
 
+## Important! Clean up
+
+Your application is publicly accessible from the internet, so it's important to tear it down and avoid abuse.
+
+```sh
+gcloud run services delete $SERVICE_NAME --region $REGION
+```
+
+You can also delete the Artifact Repository if you will no longer use it.
 
 ## References
 
