@@ -98,6 +98,8 @@ Since the application is deployed in Cloud Run, it uses the permissions of the c
 PROJECT_ID=<YOUR_PROJECT_ID>
 EMAIL=<YOUR_USER_ACCOUNT>
 
+gcloud config set project $PROJECT_ID
+
 # Enable Cloud Run API
 gcloud services enable run.googleapis.com
 
@@ -139,11 +141,19 @@ REGION=<REPLACE_WITH_YOUR_GCP_REGION_NAME>
 AR_REPO=<REPLACE_WITH_YOUR_AR_REPO_NAME>
 SERVICE_NAME=genai-text-demo
 gcloud artifacts repositories create $AR_REPO --location=$REGION --repository-format=Docker
-gcloud auth configure-docker $REGION-docker.pkg.dev
 gcloud builds submit --tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME
 gcloud run deploy $SERVICE_NAME --port 7860 --image $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME --service-account=cloud-run-llm@$PROJECT_ID.iam.gserviceaccount.com --allow-unauthenticated --region=$REGION --platform=managed  --project=$PROJECT_ID
 ```
 
+## Important! Clean up
+
+Your application is publicly accessible from the internet, so it's important to tear it down and avoid abuse.
+
+```sh
+gcloud run services delete $SERVICE_NAME --region $REGION
+```
+
+You can also delete the Artifact Repository if you will no longer use it.
 
 ## References
 
