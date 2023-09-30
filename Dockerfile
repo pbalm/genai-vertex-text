@@ -1,7 +1,7 @@
-FROM python:3.8
+FROM python:3.10
 
-RUN pip install gradio>=3.36.1
-RUN pip install google-cloud-aiplatform==1.25.0 google-cloud-logging
+RUN pip install gradio==3.45.2
+RUN pip install google-cloud-aiplatform==1.33.1 google-cloud-logging
 
 COPY ./app /app
 

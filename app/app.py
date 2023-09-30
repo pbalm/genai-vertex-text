@@ -3,29 +3,17 @@
 """
 
 from google.cloud import aiplatform
-import google.cloud.logging
 
 import vertexai
 from vertexai.preview.language_models import TextGenerationModel
 
 import gradio as gr
 
-PROJECT_ID = "argolis-rafaelsanchez-ml-dev"
-LOCATION = "us-central1"
-
-client = google.cloud.logging.Client(project=PROJECT_ID)
-client.setup_logging()
-
-log_name = "genai-vertex-text-log"
-logger = client.logger(log_name)
-
-
-vertexai.init(project=PROJECT_ID, location=LOCATION)
 
 model = TextGenerationModel.from_pretrained("text-bison@001")
 
+
 def predict(prompt, max_output_tokens, temperature, top_p, top_k):
-    logger.log_text(prompt)
     answer = model.predict(
         prompt,
         max_output_tokens=max_output_tokens, # default 128
